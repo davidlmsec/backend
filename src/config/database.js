@@ -1,4 +1,3 @@
-// config/database.js - Configuration de la connexion à la base de données
 const mysql = require('mysql2/promise');
 const dotenv = require('dotenv');
 
@@ -13,5 +12,15 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
+
+// Test de la connexion
+pool.getConnection()
+    .then(connection => {
+        console.log('Connexion à la base de données réussie');
+        connection.release();
+    })
+    .catch(err => {
+        console.error('Erreur de connexion à la base de données:', err);
+    });
 
 module.exports = pool;
