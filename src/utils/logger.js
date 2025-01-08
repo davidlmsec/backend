@@ -1,4 +1,3 @@
-// utils/logger.js - Configuration des logs
 const winston = require('winston');
 const path = require('path');
 
@@ -10,19 +9,12 @@ const logger = winston.createLogger({
     ),
     transports: [
         new winston.transports.File({
-            filename: path.join(__dirname, '../logs/error.log'),
-            level: 'error'
+            filename: path.join(__dirname, '../../logs/combined.log')
         }),
-        new winston.transports.File({
-            filename: path.join(__dirname, '../logs/combined.log')
+        new winston.transports.Console({
+            format: winston.format.simple()
         })
     ]
 });
-
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.simple()
-    }));
-}
 
 module.exports = logger;
