@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend au180",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidlmsec/backend.git"
+  },
+  "author": "David LE MEUR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidlmsec/backend/issues"
+  },
+  "homepage": "https://github.com/davidlmsec/backend#readme"
+}
