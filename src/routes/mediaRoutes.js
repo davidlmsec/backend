@@ -1,17 +1,30 @@
-// routes/mediaRoutes.js - Routes pour les médias
 const express = require('express');
 const router = express.Router();
 const mediaController = require('../controllers/mediaController');
-const authMiddleware = require('../middleware/auth');
-const upload = require('../middleware/upload');
 
 // Routes publiques
-router.get('/medias', mediaController.getAllMedia);
-router.get('/medias/category/:categoryId', mediaController.getMediaByCategory);
+router.get('/medias', async (req, res) => {
+    try {
+        const [rows] = await pool.query(
+            'SELECT m.*, c.name as category_name FROM medias m JOIN categories c ON m.category_id = c.id'
+        );
+        console.log('Données récupérées:', rows);
+        res.json(rows);
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+});
 
-// Routes protégées
-router.post('/medias', authMiddleware, upload.single('file'), mediaController.createMedia);
-router.put('/medias/:id', authMiddleware, mediaController.updateMedia);
-router.delete('/medias/:id', authMiddleware, mediaController.deleteMedia);
+router.get('/categories', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM categories');
+        console.log('Catégories récupérées:', rows);
+        res.json(rows);
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+});
 
 module.exports = router;
