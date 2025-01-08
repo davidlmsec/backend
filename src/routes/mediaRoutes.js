@@ -1,29 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const mediaController = require('../controllers/mediaController');
+const pool = require('../config/database'); // Assurez-vous que le chemin est correct
 
-// Routes publiques
 router.get('/medias', async (req, res) => {
     try {
-        const [rows] = await pool.query(
-            'SELECT m.*, c.name as category_name FROM medias m JOIN categories c ON m.category_id = c.id'
-        );
-        console.log('Données récupérées:', rows);
+        console.log('Tentative de récupération des médias');
+        const [rows] = await pool.query('SELECT * FROM medias');
+        console.log('Médias récupérés:', rows);
         res.json(rows);
     } catch (error) {
-        console.error('Erreur:', error);
-        res.status(500).json({ error: 'Erreur serveur' });
+        console.error('Erreur détaillée:', error);
+        res.status(500).json({
+            error: 'Erreur serveur',
+            details: error.message
+        });
     }
 });
 
 router.get('/categories', async (req, res) => {
     try {
+        console.log('Tentative de récupération des catégories');
         const [rows] = await pool.query('SELECT * FROM categories');
         console.log('Catégories récupérées:', rows);
         res.json(rows);
     } catch (error) {
-        console.error('Erreur:', error);
-        res.status(500).json({ error: 'Erreur serveur' });
+        console.error('Erreur détaillée:', error);
+        res.status(500).json({
+            error: 'Erreur serveur',
+            details: error.message
+        });
     }
 });
 
